@@ -1,3 +1,8 @@
+/*!
+ * Materialize vundefined (http://materializecss.com)
+ * Copyright 2014-2015 Materialize
+ * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
+ */
 .materialize-red {
   background-color: #e51c23 !important;
 }
@@ -4122,6 +4127,9 @@ nav .button-collapse {
 nav .button-collapse i {
   height: 56px;
   line-height: 56px;
+}
+
+nav .button-collapse > * {
   pointer-events: none;
 }
 

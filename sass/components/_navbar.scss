@@ -47,6 +47,8 @@ nav {
     i {
       height: $navbar-height-mobile;
       line-height: $navbar-line-height-mobile;
+    }
+    >* {
       pointer-events: none;
     }
   }
