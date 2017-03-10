@@ -18,8 +18,10 @@ Below are all the modifications made to library optimization.
 
 > **Note:** The modifications below do not change the structure of the same
 
-### Javascript
-
 ##### SideNav - http://materializecss.com/side-nav.html
 * Changed how to select element for jQuery pattern (same css selector structure).
+* Optimized code (removing unnecessary block declarations, implementing tenuous comparisons where possible)
 
+##### Dropdown - http://materializecss.com/dropdown.html
+* Changed how to select element for jQuery pattern (same css selector structure).
+* Optimized code (removing unnecessary block declarations, implementing tenuous comparisons where possible)
