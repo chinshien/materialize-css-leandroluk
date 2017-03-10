@@ -1,14 +1,14 @@
 // package metadata file for Meteor.js
 
 Package.describe({
-  name: 'materialize:materialize',  // http://atmospherejs.com/materialize/materialize
-  summary: 'Materialize (official): A modern responsive front-end framework based on Material Design',
+  name: 'leandroluk:materialize', // http://atmospherejs.com/leandroluk/materialize
+  summary: 'Custom implementations to optimize a MaterializeCSS Framework',
   version: '0.98.0',
-  git: 'https://github.com/Dogfalo/materialize.git'
+  git: 'https://github.com/leandroluk/materialize.git'
 });
 
 
-Package.onUse(function (api) {
+Package.onUse(function(api) {
   api.versionsFrom('METEOR@1.0');
 
   api.use('fourseven:scss@3.10.0');
@@ -92,10 +92,10 @@ Package.onUse(function (api) {
 });
 
 
-function addAssets(api, assets){
-  if(api.addAssets){
+function addAssets(api, assets) {
+  if (api.addAssets) {
     api.addAssets(assets, 'client');
   } else {
-    api.addFiles(assets, 'client', {isAsset: true});
+    api.addFiles(assets, 'client', { isAsset: true });
   }
 }

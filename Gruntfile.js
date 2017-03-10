@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     //  Copy
     copy: {
-      dist: { cwd: 'fonts', src: [ '**' ], dest: 'dist/fonts', expand: true },
+      dist: { cwd: 'fonts', src: ['**'], dest: 'dist/fonts', expand: true },
     },
 
     //  Jasmine
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           styles: 'bin/materialize.css',
           specs: 'tests/spec/**/*Spec.js',
           helpers: 'tests/spec/helper.js',
-          keepRunner : true,
+          keepRunner: true,
           //helpers: 'test/spec/*.js'
         }
       }
@@ -30,9 +30,9 @@ module.exports = function(grunt) {
 
 
     //  Sass
-    sass: {                              // Task
-      expanded: {                            // Target
-        options: {                       // Target options
+    sass: { // Task
+      expanded: { // Target
+        options: { // Target options
           outputStyle: 'expanded',
           sourcemap: false,
         },
@@ -84,7 +84,8 @@ module.exports = function(grunt) {
               'Chrome >= 30',
               'Firefox >= 30',
               'ie >= 10',
-              'Safari >= 8']
+              'Safari >= 8'
+            ]
           })
         ]
       },
@@ -237,9 +238,9 @@ module.exports = function(grunt) {
           archive: 'bin/materialize.zip',
           level: 6
         },
-        files:[
-          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'materialize/'},
-          { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize/'},
+        files: [
+          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'materialize/' },
+          { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize/' },
         ]
       },
 
@@ -248,45 +249,49 @@ module.exports = function(grunt) {
           archive: 'bin/materialize-src.zip',
           level: 6
         },
-        files:[
-          {expand: true, cwd: 'fonts/', src: ['**/*'], dest: 'materialize-src/fonts/'},
-          {expand: true, cwd: 'sass/', src: ['materialize.scss'], dest: 'materialize-src/sass/'},
-          {expand: true, cwd: 'sass/', src: ['components/**/*'], dest: 'materialize-src/sass/'},
-          {expand: true, cwd: 'js/', src: [
-            "initial.js",
-            "jquery.easing.1.3.js",
-            "animation.js",
-            "velocity.min.js",
-            "hammer.min.js",
-            "jquery.hammer.js",
-            "global.js",
-            "collapsible.js",
-            "dropdown.js",
-            "modal.js",
-            "materialbox.js",
-            "parallax.js",
-            "tabs.js",
-            "tooltip.js",
-            "waves.js",
-            "toasts.js",
-            "sideNav.js",
-            "scrollspy.js",
-            "forms.js",
-            "slider.js",
-            "cards.js",
-            "chips.js",
-            "pushpin.js",
-            "buttons.js",
-            "transitions.js",
-            "scrollFire.js",
-            "date_picker/picker.js",
-            "date_picker/picker.date.js",
-            "character_counter.js",
-            "carousel.js",
-            "tapTarget.js",
-          ], dest: 'materialize-src/js/'},
-          {expand: true, cwd: 'dist/js/', src: ['**/*'], dest: 'materialize-src/js/bin/'},
-          {expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize-src/'}
+        files: [
+          { expand: true, cwd: 'fonts/', src: ['**/*'], dest: 'materialize-src/fonts/' },
+          { expand: true, cwd: 'sass/', src: ['materialize.scss'], dest: 'materialize-src/sass/' },
+          { expand: true, cwd: 'sass/', src: ['components/**/*'], dest: 'materialize-src/sass/' }, {
+            expand: true,
+            cwd: 'js/',
+            src: [
+              "initial.js",
+              "jquery.easing.1.3.js",
+              "animation.js",
+              "velocity.min.js",
+              "hammer.min.js",
+              "jquery.hammer.js",
+              "global.js",
+              "collapsible.js",
+              "dropdown.js",
+              "modal.js",
+              "materialbox.js",
+              "parallax.js",
+              "tabs.js",
+              "tooltip.js",
+              "waves.js",
+              "toasts.js",
+              "sideNav.js",
+              "scrollspy.js",
+              "forms.js",
+              "slider.js",
+              "cards.js",
+              "chips.js",
+              "pushpin.js",
+              "buttons.js",
+              "transitions.js",
+              "scrollFire.js",
+              "date_picker/picker.js",
+              "date_picker/picker.date.js",
+              "character_counter.js",
+              "carousel.js",
+              "tapTarget.js",
+            ],
+            dest: 'materialize-src/js/'
+          },
+          { expand: true, cwd: 'dist/js/', src: ['**/*'], dest: 'materialize-src/js/bin/' },
+          { expand: true, cwd: './', src: ['LICENSE', 'README.md'], dest: 'materialize-src/' }
 
         ]
       },
@@ -296,11 +301,11 @@ module.exports = function(grunt) {
           archive: 'templates/starter-template.zip',
           level: 6
         },
-        files:[
-          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'starter-template/'},
-          { expand: true, cwd: 'templates/starter-template/', src: ['index.html', 'LICENSE'], dest: 'starter-template/'},
-          { expand: true, cwd: 'templates/starter-template/css', src: ['style.css'], dest: 'starter-template/css'},
-          { expand: true, cwd: 'templates/starter-template/js', src: ['init.js'], dest: 'starter-template/js'}
+        files: [
+          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'starter-template/' },
+          { expand: true, cwd: 'templates/starter-template/', src: ['index.html', 'LICENSE'], dest: 'starter-template/' },
+          { expand: true, cwd: 'templates/starter-template/css', src: ['style.css'], dest: 'starter-template/css' },
+          { expand: true, cwd: 'templates/starter-template/js', src: ['init.js'], dest: 'starter-template/js' }
 
         ]
       },
@@ -310,11 +315,11 @@ module.exports = function(grunt) {
           archive: 'templates/parallax-template.zip',
           level: 6
         },
-        files:[
-          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'parallax-template/'},
-          { expand: true, cwd: 'templates/parallax-template/', src: ['index.html', 'LICENSE', 'background1.jpg', 'background2.jpg', 'background3.jpg'], dest: 'parallax-template/'},
-          { expand: true, cwd: 'templates/parallax-template/css', src: ['style.css'], dest: 'parallax-template/css'},
-          { expand: true, cwd: 'templates/parallax-template/js', src: ['init.js'], dest: 'parallax-template/js'}
+        files: [
+          { expand: true, cwd: 'dist/', src: ['**/*'], dest: 'parallax-template/' },
+          { expand: true, cwd: 'templates/parallax-template/', src: ['index.html', 'LICENSE', 'background1.jpg', 'background2.jpg', 'background3.jpg'], dest: 'parallax-template/' },
+          { expand: true, cwd: 'templates/parallax-template/css', src: ['style.css'], dest: 'parallax-template/css' },
+          { expand: true, cwd: 'templates/parallax-template/js', src: ['init.js'], dest: 'parallax-template/js' }
 
         ]
       }
@@ -325,7 +330,7 @@ module.exports = function(grunt) {
     //  Clean
     clean: {
       temp: {
-        src: [ 'temp/' ]
+        src: ['temp/']
       },
     },
 
@@ -403,7 +408,7 @@ module.exports = function(grunt) {
       },
 
       js: {
-        files: [ "js/**/*", "!js/init.js"],
+        files: ["js/**/*", "!js/init.js"],
         tasks: ['js_compile'],
         options: {
           interrupt: false,
@@ -498,8 +503,8 @@ module.exports = function(grunt) {
         ],
         overwrite: true,
         replacements: [{
-          from: grunt.option( "oldver" ),
-          to: grunt.option( "newver" )
+          from: grunt.option("oldver"),
+          to: grunt.option("newver")
         }]
       },
       readme: { // Changes README.md
@@ -508,8 +513,8 @@ module.exports = function(grunt) {
         ],
         overwrite: true,
         replacements: [{
-          from: 'Current Version : v'+grunt.option( "oldver" ),
-          to: 'Current Version : v'+grunt.option( "newver" )
+          from: 'Current Version : v' + grunt.option("oldver"),
+          to: 'Current Version : v' + grunt.option("newver")
         }]
       },
     },
@@ -519,11 +524,11 @@ module.exports = function(grunt) {
       release: {
         options: {
           position: 'top',
-          banner: "/*!\n * Materialize v"+ grunt.option( "newver" ) +" (http://materializecss.com)\n * Copyright 2014-2015 Materialize\n * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)\n */",
+          banner: "/*!\n * Materialize v" + grunt.option("newver") + " (http://materializecss.com)\n * Copyright 2014-2015 Materialize\n * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)\n */",
           linebreak: true
         },
         files: {
-          src: [ 'dist/css/*.css', 'dist/js/*.js']
+          src: ['dist/css/*.css', 'dist/js/*.js']
         }
       }
     },
@@ -531,15 +536,15 @@ module.exports = function(grunt) {
     // Rename files
     rename: {
       rename_src: {
-        src: 'bin/materialize-src'+'.zip',
-        dest: 'bin/materialize-src-v'+grunt.option( "newver" )+'.zip',
+        src: 'bin/materialize-src' + '.zip',
+        dest: 'bin/materialize-src-v' + grunt.option("newver") + '.zip',
         options: {
           ignore: true
         }
       },
       rename_compiled: {
-        src: 'bin/materialize'+'.zip',
-        dest: 'bin/materialize-v'+grunt.option( "newver" )+'.zip',
+        src: 'bin/materialize' + '.zip',
+        dest: 'bin/materialize-v' + grunt.option("newver") + '.zip',
         options: {
           ignore: true
         }
@@ -578,7 +583,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-postcss');
   // define the tasks
   grunt.registerTask(
-    'release',[
+    'release', [
       'lint',
       'copy',
       'sass:expanded',

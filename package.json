@@ -1,14 +1,14 @@
 {
-  "name": "materialize-css",
-  "description": "Builds Materialize distribution packages",
-  "author": "Alvin Wang, Alan Chang",
-  "url": "http://materializecss.com/",
+  "name": "materialize-css-leandroluk",
+  "description": "Custom implementations to optimize a MaterializeCSS Framework",
+  "author": "Leandro Santiago Gomes",
+  "url": "https://github.com/leandroluk/materialize.git",
   "version": "0.98.0",
   "main": "bin/materialize.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Dogfalo/materialize.git"
+    "url": "git://github.com/leandroluk/materialize.git"
   },
   "dependencies": {
     "hammerjs": "^2.0.4",
