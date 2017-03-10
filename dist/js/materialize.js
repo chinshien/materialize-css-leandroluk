@@ -1,5 +1,5 @@
 /*!
- * Materialize v0.98.0 (http://materializecss.com)
+ * Materialize vundefined (http://materializecss.com)
  * Copyright 2014-2015 Materialize
  * MIT License (https://raw.githubusercontent.com/Dogfalo/materialize/master/LICENSE)
  */
@@ -316,7 +316,20 @@ m.isFunction(t)&&t(null,!0)}),f.queue(a,m.isString(v)?v:"",[])),"stop"===y?(i(a)
 }(window));
 
 
-// Unique ID
+/**
+ * Generate approximated selector string for a jQuery object
+ * @param {jQuery} obj  jQuery object to be parsed
+ * @returns {string}
+ */
+Materialize.objectSelectorString = function(obj) {
+  var tagStr = obj.prop('tagName') || '';
+  var idStr = obj.attr('id') || '';
+  var classStr = obj.attr('class') || '';
+  return (tagStr + idStr + classStr).replace(/\s/g,'');
+};
+
+
+// Unique Random ID
 Materialize.guid = (function() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -417,13 +430,14 @@ if (jQuery) {
   Vel = Velocity;
 }
 ;(function ($) {
-  $.fn.collapsible = function(options) {
+  $.fn.collapsible = function(options, methodParam) {
     var defaults = {
       accordion: undefined,
       onOpen: undefined,
       onClose: undefined
     };
 
+    var methodName = options;
     options = $.extend(defaults, options);
 
 
@@ -434,11 +448,6 @@ if (jQuery) {
       var $panel_headers = $(this).find('> li > .collapsible-header');
 
       var collapsible_type = $this.data("collapsible");
-
-      // Turn off any existing event handlers
-      $this.off('click.collapse', '> li > .collapsible-header');
-      $panel_headers.off('click.collapse');
-
 
       /****************
       Helper Functions
@@ -497,6 +506,8 @@ if (jQuery) {
 
       // Open collapsible. object: .collapsible-header
       function collapsibleOpen(object) {
+        object.toggleClass('active');
+
         if (options.accordion || collapsible_type === "accordion" || collapsible_type === undefined) { // Handle Accordion
           accordionOpen(object);
         } else { // Handle Expandables
@@ -544,6 +555,24 @@ if (jQuery) {
       /*****  End Helper Functions  *****/
 
 
+      // Methods
+      if (methodParam >= 0 &&
+          methodParam < $panel_headers.length) {
+        var $curr_header = $panel_headers.eq(methodParam);
+        if ($curr_header.length &&
+            (methodName === 'open' ||
+            (methodName === 'close' &&
+            $curr_header.hasClass('active')))) {
+          collapsibleOpen($curr_header);
+        }
+        return;
+      }
+
+
+      // Turn off any existing event handlers
+      $this.off('click.collapse', '> li > .collapsible-header');
+      $panel_headers.off('click.collapse');
+
 
       // Add click handler to only direct collapsible header children
       $this.on('click.collapse', '> li > .collapsible-header', function(e) {
@@ -552,8 +581,6 @@ if (jQuery) {
         if (isChildrenOfPanelHeader(element)) {
           element = getPanelHeader(element);
         }
-
-        element.toggleClass('active');
 
         collapsibleOpen(element);
       });
@@ -575,7 +602,7 @@ if (jQuery) {
   $(document).ready(function(){
     $('.collapsible').collapsible();
   });
-}( jQuery ));;(function ($) {
+}( jQuery ));;(function($) {
 
   // Add posibility to scroll to selected option
   // usefull for select for example
@@ -584,7 +611,7 @@ if (jQuery) {
     return this;
   };
 
-  $.fn.dropdown = function (options) {
+  $.fn.dropdown = function(options) {
     var defaults = {
       inDuration: 300,
       outDuration: 225,
@@ -612,13 +639,14 @@ if (jQuery) {
       return false;
     }
 
-    this.each(function(){
+    this.each(function() {
+      debugger;
       var origin = $(this);
       var curr_options = $.extend({}, defaults, options);
       var isFocused = false;
 
       // Dropdown menu
-      var activates = $("#"+ origin.attr('data-activates'));
+      var activates = $(origin.attr('data-activates'));
 
       function updateOptions() {
         if (origin.data('induration') !== undefined)
@@ -650,9 +678,8 @@ if (jQuery) {
       */
       function placeDropdown(eventType) {
         // Check for simultaneous focus and click events.
-        if (eventType === 'focus') {
+        if (eventType === 'focus')
           isFocused = true;
-        }
 
         // Check html data attributes
         updateOptions();
@@ -662,12 +689,7 @@ if (jQuery) {
         origin.addClass('active');
 
         // Constrain width
-        if (curr_options.constrainWidth === true) {
-          activates.css('width', origin.outerWidth());
-
-        } else {
-          activates.css('white-space', 'nowrap');
-        }
+        curr_options.constrainWidth === true ? activates.css('width', origin.outerWidth()) : activates.css('white-space', 'nowrap');
 
         // Offscreen detection
         var windowHeight = window.innerHeight;
@@ -680,43 +702,37 @@ if (jQuery) {
 
         // Below Origin
         var verticalOffset = 0;
-        if (curr_options.belowOrigin === true) {
-          verticalOffset = originHeight;
-        }
+        if (curr_options.belowOrigin === true) verticalOffset = originHeight;
 
         // Check for scrolling positioned container.
         var scrollYOffset = 0;
         var scrollXOffset = 0;
         var wrapper = origin.parent();
         if (!wrapper.is('body')) {
-          if (wrapper[0].scrollHeight > wrapper[0].clientHeight) {
+          if (wrapper[0].scrollHeight > wrapper[0].clientHeight)
             scrollYOffset = wrapper[0].scrollTop;
-          }
-          if (wrapper[0].scrollWidth > wrapper[0].clientWidth) {
+          if (wrapper[0].scrollWidth > wrapper[0].clientWidth)
             scrollXOffset = wrapper[0].scrollLeft;
-          }
         }
 
-
-        if (offsetLeft + activates.innerWidth() > $(window).width()) {
-          // Dropdown goes past screen on right, force right alignment
+        // Dropdown goes past screen on right, force right alignment
+        if (offsetLeft + activates.innerWidth() > $(window).width())
           currAlignment = 'right';
 
-        } else if (offsetLeft - activates.innerWidth() + origin.innerWidth() < 0) {
-          // Dropdown goes past screen on left, force left alignment
+        // Dropdown goes past screen on left, force left alignment
+        else if (offsetLeft - activates.innerWidth() + origin.innerWidth() < 0)
           currAlignment = 'left';
-        }
+
         // Vertical bottom offscreen detection
         if (offsetTop + activates.innerHeight() > windowHeight) {
           // If going upwards still goes offscreen, just crop height of dropdown.
           if (offsetTop + originHeight - activates.innerHeight() < 0) {
             var adjustedHeight = windowHeight - offsetTop - verticalOffset;
             activates.css('max-height', adjustedHeight);
-          } else {
-            // Flow upwards.
-            if (!verticalOffset) {
-              verticalOffset += originHeight;
-            }
+          }
+          // Flow upwards.
+          else {
+            if (!verticalOffset) verticalOffset += originHeight;
             verticalOffset -= activates.innerHeight();
           }
         }
@@ -725,11 +741,10 @@ if (jQuery) {
         if (currAlignment === 'left') {
           gutterSpacing = curr_options.gutter;
           leftPosition = origin.position().left + gutterSpacing;
-        }
-        else if (currAlignment === 'right') {
+        } else if (currAlignment === 'right') {
           var offsetRight = origin.position().left + origin.outerWidth() - activates.outerWidth();
           gutterSpacing = -curr_options.gutter;
-          leftPosition =  offsetRight + gutterSpacing;
+          leftPosition = offsetRight + gutterSpacing;
         }
 
         // Position dropdown
@@ -750,13 +765,13 @@ if (jQuery) {
               $(this).css('height', '');
             }
           })
-          .animate( {opacity: 1}, {queue: false, duration: curr_options.inDuration, easing: 'easeOutSine'});
+          .animate({ opacity: 1 }, { queue: false, duration: curr_options.inDuration, easing: 'easeOutSine' });
 
         // Add click close handler to document
-        $(document).bind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'), function (e) {
-          if (!activates.is(e.target) && !origin.is(e.target) && (!origin.find(e.target).length) ) {
+        $(document).bind('click.' + activates.attr('id') + ' touchstart.' + activates.attr('id'), function(e) {
+          if (!activates.is(e.target) && !origin.is(e.target) && (!activates.find(e.target).length)) {
             hideDropdown();
-            $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+            $(document).unbind('click.' + activates.attr('id') + ' touchstart.' + activates.attr('id'));
           }
         });
       }
@@ -767,7 +782,7 @@ if (jQuery) {
         activates.fadeOut(curr_options.outDuration);
         activates.removeClass('active');
         origin.removeClass('active');
-        $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+        $(document).unbind('click.' + activates.attr('id') + ' touchstart.' + activates.attr('id'));
         setTimeout(function() { activates.css('max-height', ''); }, curr_options.outDuration);
       }
 
@@ -776,25 +791,25 @@ if (jQuery) {
         var open = false;
         origin.unbind('click.' + origin.attr('id'));
         // Hover handler to show dropdown
-        origin.on('mouseenter', function(e){ // Mouse over
+        origin.on('mouseenter', function(e) { // Mouse over
           if (open === false) {
             placeDropdown();
             open = true;
           }
         });
-        origin.on('mouseleave', function(e){
+        origin.on('mouseleave', function(e) {
           // If hover on origin then to something other than dropdown content, then close
           var toEl = e.toElement || e.relatedTarget; // added browser compatibility for target element
-          if(!$(toEl).closest('.dropdown-content').is(activates)) {
+          if (!$(toEl).closest('.dropdown-content').is(activates)) {
             activates.stop(true, true);
             hideDropdown();
             open = false;
           }
         });
 
-        activates.on('mouseleave', function(e){ // Mouse out
+        activates.on('mouseleave', function(e) { // Mouse out
           var toEl = e.toElement || e.relatedTarget;
-          if(!$(toEl).closest('.dropdown-button').is(origin)) {
+          if (!$(toEl).closest('.dropdown-button').is(origin)) {
             activates.stop(true, true);
             hideDropdown();
             open = false;
@@ -805,21 +820,18 @@ if (jQuery) {
       } else {
         // Click handler to show dropdown
         origin.unbind('click.' + origin.attr('id'));
-        origin.bind('click.'+origin.attr('id'), function(e){
+        origin.bind('click.' + origin.attr('id'), function(e) {
           if (!isFocused) {
-            if ( origin[0] == e.currentTarget &&
-                 !origin.hasClass('active') &&
-                 ($(e.target).closest('.dropdown-content').length === 0)) {
+            if (origin[0] == e.currentTarget && !origin.hasClass('active') && ($(e.target).closest('.dropdown-content').length === 0)) {
               e.preventDefault(); // Prevents button click from moving window
-              if (curr_options.stopPropagation) {
+              if (curr_options.stopPropagation)
                 e.stopPropagation();
-              }
               placeDropdown('click');
             }
             // If origin is clicked and menu is open, close menu
             else if (origin.hasClass('active')) {
               hideDropdown();
-              $(document).unbind('click.'+ activates.attr('id') + ' touchstart.' + activates.attr('id'));
+              $(document).unbind('click.' + activates.attr('id') + ' touchstart.' + activates.attr('id'));
             }
           }
         });
@@ -836,10 +848,10 @@ if (jQuery) {
     });
   }; // End dropdown plugin
 
-  $(document).ready(function(){
+  $(document).ready(function() {
     $('.dropdown-button').dropdown();
   });
-}( jQuery ));
+}(jQuery));
 ;(function($) {
   var _stack = 0,
   _lastID = 0,
@@ -1046,6 +1058,7 @@ if (jQuery) {
       var originalHeight = 0;
       var ancestorsChanged;
       var ancestor;
+      var originInlineStyles = origin.attr('style');
       origin.wrap(placeholder);
 
 
@@ -1277,16 +1290,8 @@ if (jQuery) {
               left: ''
             });
 
-            origin.css({
-              height: '',
-              top: '',
-              left: '',
-              width: '',
-              'max-width': '',
-              position: '',
-              'z-index': '',
-              'will-change': ''
-            });
+            origin.removeAttr('style');
+            origin.attr('style', originInlineStyles);
 
             // Remove class
             origin.removeClass('active');
@@ -1469,7 +1474,7 @@ if (jQuery) {
           $indicator.css({"left": calcLeftPos($active) });
         }, 0);
       }
-      $(window).resize(function () {
+      $(window).off('resize.tabs').on('resize.tabs', function () {
         $tabs_width = $this.width();
         $tab_width = Math.max($tabs_width, $this[0].scrollWidth) / $links.length;
         if (index < 0) {
@@ -1512,7 +1517,7 @@ if (jQuery) {
 
 
       // Bind the click event handler
-      $this.on('click', 'a', function(e) {
+      $this.off('click.tabs').on('click.tabs', 'a', function(e) {
         if ($(this).parent().hasClass('disabled')) {
           e.preventDefault();
           return;
@@ -2312,91 +2317,77 @@ if (jQuery) {
     return toast;
   }
 };
-;(function ($) {
+;(function($) {
 
   var methods = {
-    init : function(options) {
+    init: function(options) {
+
       var defaults = {
         menuWidth: 300,
         edge: 'left',
         closeOnClick: false,
         draggable: true
       };
+
       options = $.extend(defaults, options);
 
-      $(this).each(function(){
+      $(this).each(function() {
+
         var $this = $(this);
-        var menuId = $this.attr('data-activates');
-        var menu = $("#"+ menuId);
+        var selector = $this.attr('data-activates');
+        var menu = $(selector);
 
         // Set to width
-        if (options.menuWidth != 300) {
+        if (options.menuWidth != 300)
           menu.css('width', options.menuWidth);
-        }
 
         // Add Touch Area
-        var $dragTarget = $('.drag-target[data-sidenav="' + menuId + '"]');
+        var $dragTarget = $('.drag-target[data-sidenav="' + selector + '"]');
+
         if (options.draggable) {
+
           // Regenerate dragTarget
-          if ($dragTarget.length) {
+          if ($dragTarget.length)
             $dragTarget.remove();
-          }
 
-          $dragTarget = $('<div class="drag-target"></div>').attr('data-sidenav', menuId);
+          $dragTarget = $('<div class="drag-target"></div>').attr('data-sidenav', selector);
+
           $('body').append($dragTarget);
-        } else {
-          $dragTarget = $();
-        }
 
+        } else $dragTarget = $();
+
+        // default text-alignment to left
         if (options.edge == 'left') {
           menu.css('transform', 'translateX(-100%)');
-          $dragTarget.css({'left': 0}); // Add Touch Area
+          $dragTarget.css({ 'left': 0 }); // Add Touch Area
         }
+        // Change text-alignment to right
         else {
-          menu.addClass('right-aligned') // Change text-alignment to right
-            .css('transform', 'translateX(100%)');
-          $dragTarget.css({'right': 0}); // Add Touch Area
+          menu.addClass('right-aligned').css('transform', 'translateX(100%)');
+          $dragTarget.css({ 'right': 0 }); // Add Touch Area
         }
 
         // If fixed sidenav, bring menu out
+        if (menu.hasClass('fixed'))
+          if (window.innerWidth > 992)
+            menu.css('transform', 'translateX(0)');
+
+          // Window resize to reset on large screens fixed
         if (menu.hasClass('fixed')) {
-            if (window.innerWidth > 992) {
-              menu.css('transform', 'translateX(0)');
-            }
-          }
-
-        // Window resize to reset on large screens fixed
-        if (menu.hasClass('fixed')) {
-          $(window).resize( function() {
-            if (window.innerWidth > 992) {
-              // Close menu if window is resized bigger than 992 and user has fixed sidenav
-              if ($('#sidenav-overlay').length !== 0 && menuOut) {
-                removeMenu(true);
-              }
-              else {
-                // menu.removeAttr('style');
-                menu.css('transform', 'translateX(0%)');
-                // menu.css('width', options.menuWidth);
-              }
-            }
-            else if (menuOut === false){
-              if (options.edge === 'left') {
-                menu.css('transform', 'translateX(-100%)');
-              } else {
-                menu.css('transform', 'translateX(100%)');
-              }
-
-            }
-
+          $(window).resize(function() {
+            // Close menu if window is resized bigger than 992 and user has fixed sidenav
+            if (window.innerWidth > 992)
+              ($('#sidenav-overlay').length !== 0 && menuOut) ? removeMenu(true) : menu.css('transform', 'translateX(0%)');
+            else if (menuOut === false)
+              options.edge === 'left' ? menu.css('transform', 'translateX(-100%)') : menu.css('transform', 'translateX(100%)');
           });
         }
 
         // if closeOnClick, then add close event for all a tags in side sideNav
-        if (options.closeOnClick === true) {
-          menu.on("click.itemclick", "a:not(.collapsible-header)", function(){
+        if (options.closeOnClick === true)
+          menu.on("click.itemclick", "a:not(.collapsible-header)", function() {
             removeMenu();
           });
-        }
 
         var removeMenu = function(restoreNav) {
           panning = false;
@@ -2407,59 +2398,56 @@ if (jQuery) {
             width: ''
           });
 
-          $('#sidenav-overlay').velocity({opacity: 0}, {duration: 200,
-              queue: false, easing: 'easeOutQuad',
+          $('#sidenav-overlay').velocity({ opacity: 0 }, {
+            duration: 200,
+            queue: false,
+            easing: 'easeOutQuad',
             complete: function() {
               $(this).remove();
-            } });
+            }
+          });
           if (options.edge === 'left') {
             // Reset phantom div
-            $dragTarget.css({width: '', right: '', left: '0'});
-            menu.velocity(
-              {'translateX': '-100%'},
-              { duration: 200,
-                queue: false,
-                easing: 'easeOutCubic',
-                complete: function() {
-                  if (restoreNav === true) {
-                    // Restore Fixed sidenav
-                    menu.removeAttr('style');
-                    menu.css('width', options.menuWidth);
-                  }
+            $dragTarget.css({ width: '', right: '', left: '0' });
+            menu.velocity({ 'translateX': '-100%' }, {
+              duration: 200,
+              queue: false,
+              easing: 'easeOutCubic',
+              complete: function() {
+                if (restoreNav === true) {
+                  // Restore Fixed sidenav
+                  menu.removeAttr('style');
+                  menu.css('width', options.menuWidth);
                 }
+              }
 
             });
-          }
-          else {
+          } else {
             // Reset phantom div
-            $dragTarget.css({width: '', right: '0', left: ''});
-            menu.velocity(
-              {'translateX': '100%'},
-              { duration: 200,
-                queue: false,
-                easing: 'easeOutCubic',
-                complete: function() {
-                  if (restoreNav === true) {
-                    // Restore Fixed sidenav
-                    menu.removeAttr('style');
-                    menu.css('width', options.menuWidth);
-                  }
+            $dragTarget.css({ width: '', right: '0', left: '' });
+            menu.velocity({ 'translateX': '100%' }, {
+              duration: 200,
+              queue: false,
+              easing: 'easeOutCubic',
+              complete: function() {
+                if (restoreNav === true) {
+                  // Restore Fixed sidenav
+                  menu.removeAttr('style');
+                  menu.css('width', options.menuWidth);
                 }
-              });
+              }
+            });
           }
         };
-
-
 
         // Touch Event
         var panning = false;
         var menuOut = false;
 
         if (options.draggable) {
-          $dragTarget.on('click', function(){
-            if (menuOut) {
-              removeMenu();
-            }
+
+          $dragTarget.on('click', function() {
+            if (menuOut) removeMenu();
           });
 
           $dragTarget.hammer({
@@ -2483,7 +2471,7 @@ if (jQuery) {
               // If overlay does not exist, create one and if it is clicked, close menu
               if ($overlay.length === 0) {
                 $overlay = $('<div id="sidenav-overlay"></div>');
-                $overlay.css('opacity', 0).click( function(){
+                $overlay.css('opacity', 0).click(function() {
                   removeMenu();
                 });
                 $('body').append($overlay);
@@ -2491,102 +2479,126 @@ if (jQuery) {
 
               // Keep within boundaries
               if (options.edge === 'left') {
-                if (x > options.menuWidth) { x = options.menuWidth; }
-                else if (x < 0) { x = 0; }
+                if (x > options.menuWidth)
+                  x = options.menuWidth;
+                else if (x < 0)
+                  x = 0;
               }
 
               if (options.edge === 'left') {
+
                 // Left Direction
-                if (x < (options.menuWidth / 2)) { menuOut = false; }
+                if (x < (options.menuWidth / 2)) menuOut = false;
+
                 // Right Direction
-                else if (x >= (options.menuWidth / 2)) { menuOut = true; }
+                else if (x >= (options.menuWidth / 2)) menuOut = true;
+
                 menu.css('transform', 'translateX(' + (x - options.menuWidth) + 'px)');
-              }
-              else {
+
+              } else {
+
                 // Left Direction
-                if (x < (window.innerWidth - options.menuWidth / 2)) {
-                  menuOut = true;
-                }
+                if (x < (window.innerWidth - options.menuWidth / 2)) menuOut = true;
+
                 // Right Direction
-                else if (x >= (window.innerWidth - options.menuWidth / 2)) {
-                 menuOut = false;
-               }
+                else if (x >= (window.innerWidth - options.menuWidth / 2)) menuOut = false;
+
                 var rightPos = (x - options.menuWidth / 2);
-                if (rightPos < 0) {
+
+                if (rightPos < 0)
                   rightPos = 0;
-                }
 
                 menu.css('transform', 'translateX(' + rightPos + 'px)');
+
               }
 
 
               // Percentage overlay
               var overlayPerc;
+
               if (options.edge === 'left') {
+
                 overlayPerc = x / options.menuWidth;
-                $overlay.velocity({opacity: overlayPerc }, {duration: 10, queue: false, easing: 'easeOutQuad'});
-              }
-              else {
+
+                $overlay.velocity({ opacity: overlayPerc }, { duration: 10, queue: false, easing: 'easeOutQuad' });
+
+              } else {
+
                 overlayPerc = Math.abs((x - window.innerWidth) / options.menuWidth);
-                $overlay.velocity({opacity: overlayPerc }, {duration: 10, queue: false, easing: 'easeOutQuad'});
+
+                $overlay.velocity({ opacity: overlayPerc }, { duration: 10, queue: false, easing: 'easeOutQuad' });
+
               }
             }
 
           }).bind('panend', function(e) {
 
             if (e.gesture.pointerType == "touch") {
-              var $overlay = $('<div id="sidenav-overlay"></div>');
+
+              var $overlay = $('#sidenav-overlay');
               var velocityX = e.gesture.velocityX;
               var x = e.gesture.center.x;
               var leftPos = x - options.menuWidth;
               var rightPos = x - options.menuWidth / 2;
-              if (leftPos > 0 ) {
-                leftPos = 0;
-              }
-              if (rightPos < 0) {
-                rightPos = 0;
-              }
+
+              if (leftPos > 0) leftPos = 0;
+
+              if (rightPos < 0) rightPos = 0;
+
               panning = false;
 
               if (options.edge === 'left') {
                 // If velocityX <= 0.3 then the user is flinging the menu closed so ignore menuOut
                 if ((menuOut && velocityX <= 0.3) || velocityX < -0.5) {
                   // Return menu to open
-                  if (leftPos !== 0) {
-                    menu.velocity({'translateX': [0, leftPos]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                  }
+                  if (leftPos !== 0)
+                    menu.velocity({ 'translateX': [0, leftPos] }, { duration: 300, queue: false, easing: 'easeOutQuad' });
 
-                  $overlay.velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-                  $dragTarget.css({width: '50%', right: 0, left: ''});
+                  $overlay.velocity({ opacity: 1 }, { duration: 50, queue: false, easing: 'easeOutQuad' });
+
+                  $dragTarget.css({ width: '50%', right: 0, left: '' });
+
                   menuOut = true;
-                }
-                else if (!menuOut || velocityX > 0.3) {
+
+                } else if (!menuOut || velocityX > 0.3) {
+
                   // Enable Scrolling
                   $('body').css({
                     overflow: '',
                     width: ''
                   });
+
                   // Slide menu closed
-                  menu.velocity({'translateX': [-1 * options.menuWidth - 10, leftPos]}, {duration: 200, queue: false, easing: 'easeOutQuad'});
-                  $overlay.velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
-                    complete: function () {
+                  menu.velocity({ 'translateX': [-1 * options.menuWidth - 10, leftPos] }, { duration: 200, queue: false, easing: 'easeOutQuad' });
+
+                  $overlay.velocity({ opacity: 0 }, {
+                    duration: 200,
+                    queue: false,
+                    easing: 'easeOutQuad',
+                    complete: function() {
                       $(this).remove();
-                    }});
-                  $dragTarget.css({width: '10px', right: '', left: 0});
+                    }
+                  });
+
+                  $dragTarget.css({ width: '10px', right: '', left: 0 });
+
                 }
-              }
-              else {
+
+              } else {
+
                 if ((menuOut && velocityX >= -0.3) || velocityX > 0.5) {
                   // Return menu to open
-                  if (rightPos !== 0) {
-                    menu.velocity({'translateX': [0, rightPos]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-                  }
+                  if (rightPos !== 0)
+                    menu.velocity({ 'translateX': [0, rightPos] }, { duration: 300, queue: false, easing: 'easeOutQuad' });
 
-                  $overlay.velocity({opacity: 1 }, {duration: 50, queue: false, easing: 'easeOutQuad'});
-                  $dragTarget.css({width: '50%', right: '', left: 0});
+                  $overlay.velocity({ opacity: 1 }, { duration: 50, queue: false, easing: 'easeOutQuad' });
+
+                  $dragTarget.css({ width: '50%', right: '', left: 0 });
+
                   menuOut = true;
-                }
-                else if (!menuOut || velocityX < -0.3) {
+
+                } else if (!menuOut || velocityX < -0.3) {
+
                   // Enable Scrolling
                   $('body').css({
                     overflow: '',
@@ -2594,12 +2606,19 @@ if (jQuery) {
                   });
 
                   // Slide menu closed
-                  menu.velocity({'translateX': [options.menuWidth + 10, rightPos]}, {duration: 200, queue: false, easing: 'easeOutQuad'});
-                  $overlay.velocity({opacity: 0 }, {duration: 200, queue: false, easing: 'easeOutQuad',
-                    complete: function () {
+                  menu.velocity({ 'translateX': [options.menuWidth + 10, rightPos] }, { duration: 200, queue: false, easing: 'easeOutQuad' });
+
+                  $overlay.velocity({ opacity: 0 }, {
+                    duration: 200,
+                    queue: false,
+                    easing: 'easeOutQuad',
+                    complete: function() {
                       $(this).remove();
-                    }});
-                  $dragTarget.css({width: '10px', right: 0, left: ''});
+                    }
+                  });
+
+                  $dragTarget.css({ width: '10px', right: 0, left: '' });
+
                 }
               }
 
@@ -2608,17 +2627,21 @@ if (jQuery) {
         }
 
         $this.off('click.sidenav').on('click.sidenav', function() {
+
           if (menuOut === true) {
+
             menuOut = false;
             panning = false;
+
             removeMenu();
-          }
-          else {
+
+          } else {
 
             // Disable Scrolling
             var $body = $('body');
             var $overlay = $('<div id="sidenav-overlay"></div>');
             var oldWidth = $body.innerWidth();
+
             $body.css('overflow', 'hidden');
             $body.width(oldWidth);
 
@@ -2626,68 +2649,91 @@ if (jQuery) {
             $('body').append($dragTarget);
 
             if (options.edge === 'left') {
-              $dragTarget.css({width: '50%', right: 0, left: ''});
-              menu.velocity({'translateX': [0, -1 * options.menuWidth]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
-            }
-            else {
-              $dragTarget.css({width: '50%', right: '', left: 0});
-              menu.velocity({'translateX': [0, options.menuWidth]}, {duration: 300, queue: false, easing: 'easeOutQuad'});
+
+              $dragTarget.css({ width: '50%', right: 0, left: '' });
+
+              menu.velocity({ 'translateX': [0, -1 * options.menuWidth] }, { duration: 300, queue: false, easing: 'easeOutQuad' });
+
+            } else {
+
+              $dragTarget.css({ width: '50%', right: '', left: 0 });
+
+              menu.velocity({ 'translateX': [0, options.menuWidth] }, { duration: 300, queue: false, easing: 'easeOutQuad' });
+
             }
 
-            $overlay.css('opacity', 0)
-            .click(function(){
+            $overlay.css('opacity', 0).click(function() {
+
               menuOut = false;
               panning = false;
+
               removeMenu();
-              $overlay.velocity({opacity: 0}, {duration: 300, queue: false, easing: 'easeOutQuad',
+
+              $overlay.velocity({ opacity: 0 }, {
+                duration: 300,
+                queue: false,
+                easing: 'easeOutQuad',
                 complete: function() {
                   $(this).remove();
-                } });
+                }
+              });
 
             });
+
             $('body').append($overlay);
-            $overlay.velocity({opacity: 1}, {duration: 300, queue: false, easing: 'easeOutQuad',
-              complete: function () {
+
+            $overlay.velocity({ opacity: 1 }, {
+              duration: 300,
+              queue: false,
+              easing: 'easeOutQuad',
+              complete: function() {
+
                 menuOut = true;
                 panning = false;
+
               }
             });
           }
 
           return false;
+
         });
+
       });
 
-
     },
-    destroy: function () {
+    destroy: function() {
+
       var $overlay = $('#sidenav-overlay');
       var $dragTarget = $('.drag-target[data-sidenav="' + $(this).attr('data-activates') + '"]');
+
       $overlay.trigger('click');
+
       $dragTarget.remove();
+
       $(this).off('click');
+
       $overlay.remove();
+
     },
-    show : function() {
+    show: function() {
       this.trigger('click');
     },
-    hide : function() {
+    hide: function() {
       $('#sidenav-overlay').trigger('click');
     }
   };
 
 
   $.fn.sideNav = function(methodOrOptions) {
-    if ( methods[methodOrOptions] ) {
-      return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-    } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
-      // Default to "init"
-      return methods.init.apply( this, arguments );
-    } else {
-      $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.sideNav' );
-    }
+    if (methods[methodOrOptions])
+      return methods[methodOrOptions].apply(this, Array.prototype.slice.call(arguments, 1));
+    else if (typeof methodOrOptions === 'object' || !methodOrOptions)
+      return methods.init.apply(this, arguments);
+    else
+      $.error('Method ' + methodOrOptions + ' does not exist on jQuery.sideNav');
   }; // Plugin end
-}( jQuery ));
+}(jQuery));
 ;/**
  * Extend jquery with a scrollspy plugin.
  * This watches the window scroll and fires events when elements are scrolled into viewport.
@@ -3116,11 +3162,23 @@ if (jQuery) {
     $(document).on('change', range_type, function(e) {
       var thumb = $(this).siblings('.thumb');
       thumb.find('.value').html($(this).val());
+      var max = $(this).attr('max');
+      var width = $(this).width() - 15;
+      var paddingSide = ($(this).parent('.range-field').outerWidth() - width) || 0;
+      var offsetLeft = $(this).val() * (width / max);
+
+      if (!thumb.hasClass('active')) {
+        thumb.velocity({ height: "30px", width: "30px", top: "-30px", marginLeft: "5px"}, { duration: 300, easing: 'easeOutExpo' });
+      }
+      thumb.addClass('active').css('left', offsetLeft);
     });
 
-    $(document).on('input mousedown touchstart', range_type, function(e) {
+    $(document).on('mousedown touchstart', range_type, function(e) {
       var thumb = $(this).siblings('.thumb');
-      var width = $(this).outerWidth();
+      var max = $(this).attr('max');
+      var width = $(this).width() - 15;
+      var paddingSide = ($(this).parent('.range-field').outerWidth() - width) || 0;
+      var offsetLeft = $(this).val() * (width / max);
 
       // If thumb indicator does not exist yet, create it
       if (thumb.length <= 0) {
@@ -3135,26 +3193,12 @@ if (jQuery) {
       $(this).addClass('active');
 
       if (!thumb.hasClass('active')) {
-        thumb.velocity({ height: "30px", width: "30px", top: "-20px", marginLeft: "-15px"}, { duration: 300, easing: 'easeOutExpo' });
+        thumb.velocity({ height: "30px", width: "30px", top: "-30px", marginLeft: "5px"}, { duration: 300, easing: 'easeOutExpo' });
       }
 
       if (e.type !== 'input') {
-        if(e.pageX === undefined || e.pageX === null){//mobile
-           left = e.originalEvent.touches[0].pageX - $(this).offset().left;
-        }
-        else{ // desktop
-           left = e.pageX - $(this).offset().left;
-        }
-        if (left < 0) {
-          left = 0;
-        }
-        else if (left > width) {
-          left = width;
-        }
-        thumb.addClass('active').css('left', left);
+        thumb.addClass('active').css('left', offsetLeft);
       }
-
-      thumb.find('.value').html($(this).val());
     });
 
     $(document).on('mouseup touchend', range_wrapper, function() {
@@ -3162,28 +3206,20 @@ if (jQuery) {
       $(this).removeClass('active');
     });
 
-    $(document).on('mousemove touchmove', range_wrapper, function(e) {
+    $(document).on('input mousemove touchmove', range_wrapper, function(e) {
       var thumb = $(this).children('.thumb');
       var left;
+      var input = $(this).find(range_type);
+      var max = input.attr('max');
+      var width = input.width() - 15;
+      var paddingSide = ($(this).outerWidth() - width) || 0;
+      var offsetLeft = input.val() * (width / max);
+
       if (range_mousedown) {
         if (!thumb.hasClass('active')) {
-          thumb.velocity({ height: '30px', width: '30px', top: '-20px', marginLeft: '-15px'}, { duration: 300, easing: 'easeOutExpo' });
+          thumb.velocity({ height: "30px", width: "30px", top: "-30px", marginLeft: "5px"}, { duration: 300, easing: 'easeOutExpo' });
         }
-        if (e.pageX === undefined || e.pageX === null) { //mobile
-          left = e.originalEvent.touches[0].pageX - $(this).offset().left;
-        }
-        else{ // desktop
-          left = e.pageX - $(this).offset().left;
-        }
-        var width = $(this).outerWidth();
-
-        if (left < 0) {
-          left = 0;
-        }
-        else if (left > width) {
-          left = width;
-        }
-        thumb.addClass('active').css('left', left);
+        thumb.addClass('active').css('left', offsetLeft);
         thumb.find('.value').html(thumb.siblings(range_type).val());
       }
     });
@@ -3194,7 +3230,7 @@ if (jQuery) {
         var thumb = $(this).children('.thumb');
 
         if (thumb.hasClass('active')) {
-          thumb.velocity({ height: '0', width: '0', top: '10px', marginLeft: '-6px'}, { duration: 100 });
+          thumb.velocity({ height: '0', width: '0', top: '10px', marginLeft: '15px'}, { duration: 100 });
         }
         thumb.removeClass('active');
       }
@@ -3208,7 +3244,8 @@ if (jQuery) {
       var defaults = {
         data: {},
         limit: Infinity,
-        onAutocomplete: null
+        onAutocomplete: null,
+        minLength: 1
       };
 
       options = $.extend(defaults, options);
@@ -3217,7 +3254,7 @@ if (jQuery) {
         var $input = $(this);
         var data = options.data,
             count = 0,
-            activeIndex = 0,
+            activeIndex = -1,
             oldVal,
             $inputDiv = $input.closest('.input-field'); // Div to append on
 
@@ -3259,14 +3296,26 @@ if (jQuery) {
 
           // Reset current element position
           var resetCurrentElement = function() {
-            activeIndex = 0;
+            activeIndex = -1;
             $autocomplete.find('.active').removeClass('active');
           }
 
+          // Remove autocomplete elements
+          var removeAutocomplete = function() {
+            $autocomplete.empty();
+            resetCurrentElement();
+            oldVal = undefined;
+          };
+
+          $input.off('blur.autocomplete').on('blur.autocomplete', function() {
+            removeAutocomplete();
+          });
+
           // Perform search
-          $input.off('keyup.autocomplete').on('keyup.autocomplete', function (e) {
+          $input.off('keyup.autocomplete focus.autocomplete').on('keyup.autocomplete focus.autocomplete', function (e) {
             // Reset count.
             count = 0;
+            var val = $input.val().toLowerCase();
 
             // Don't capture enter or arrow key usage.
             if (e.which === 13 ||
@@ -3275,14 +3324,12 @@ if (jQuery) {
               return;
             }
 
-            var val = $input.val().toLowerCase();
 
             // Check if the input isn't empty
             if (oldVal !== val) {
-              $autocomplete.empty();
-              resetCurrentElement();
+              removeAutocomplete();
 
-              if (val !== '') {
+              if (val.length >= options.minLength) {
                 for(var key in data) {
                   if (data.hasOwnProperty(key) &&
                       key.toLowerCase().indexOf(val) !== -1 &&
@@ -3319,10 +3366,10 @@ if (jQuery) {
                 $active = $autocomplete.children('.active').first();
 
             // select element on Enter
-            if (keyCode === 13) {
+            if (keyCode === 13 && activeIndex >= 0) {
               liElement = $autocomplete.children('li').eq(activeIndex);
               if (liElement.length) {
-                liElement.click();
+                liElement.trigger('mousedown.autocomplete');
                 e.preventDefault();
               }
               return;
@@ -3338,23 +3385,23 @@ if (jQuery) {
               }
 
               if (keyCode === 40 &&
-                  activeIndex < (numItems - 1) &&
-                  $active.length) {
+                  activeIndex < (numItems - 1)) {
                 activeIndex++;
               }
 
               $active.removeClass('active');
-              $autocomplete.children('li').eq(activeIndex).addClass('active');
+              if (activeIndex >= 0) {
+                $autocomplete.children('li').eq(activeIndex).addClass('active');
+              }
             }
           });
 
           // Set input value
-          $autocomplete.on('click', 'li', function () {
+          $autocomplete.on('mousedown.autocomplete touchstart.autocomplete', 'li', function () {
             var text = $(this).text().trim();
             $input.val(text);
             $input.trigger('change');
-            $autocomplete.empty();
-            resetCurrentElement();
+            removeAutocomplete();
 
             // Handle onAutocomplete callback.
             if (typeof(options.onAutocomplete) === "function") {
@@ -3412,6 +3459,7 @@ if (jQuery) {
         // Add disabled attr if disabled
         var disabledClass = (option.is(':disabled')) ? 'disabled ' : '';
         var optgroupClass = (type === 'optgroup-option') ? 'optgroup-option ' : '';
+        var multipleCheckbox = multiple ? '<input type="checkbox"' + disabledClass + '/><label></label>' : '';
 
         // add icons
         var icon_url = option.data('icon');
@@ -3421,20 +3469,12 @@ if (jQuery) {
           if (!!classes) classString = ' class="' + classes + '"';
 
           // Check for multiple type.
-          if (type === 'multiple') {
-            options.append($('<li class="' + disabledClass + '"><img alt="" src="' + icon_url + '"' + classString + '><span><input type="checkbox"' + disabledClass + '/><label></label>' + option.html() + '</span></li>'));
-          } else {
-            options.append($('<li class="' + disabledClass + optgroupClass + '"><img alt="" src="' + icon_url + '"' + classString + '><span>' + option.html() + '</span></li>'));
-          }
+          options.append($('<li class="' + disabledClass + optgroupClass + '"><img alt="" src="' + icon_url + '"' + classString + '><span>' + multipleCheckbox + option.html() + '</span></li>'));
           return true;
         }
 
         // Check for multiple type.
-        if (type === 'multiple') {
-          options.append($('<li class="' + disabledClass + '"><span><input type="checkbox"' + disabledClass + '/><label></label>' + option.html() + '</span></li>'));
-        } else {
-          options.append($('<li class="' + disabledClass + optgroupClass + '"><span>' + option.html() + '</span></li>'));
-        }
+        options.append($('<li class="' + disabledClass + optgroupClass + '"><span>' + multipleCheckbox + option.html() + '</span></li>'));
       };
 
       /* Create dropdown structure. */
@@ -3468,7 +3508,7 @@ if (jQuery) {
 
             if (multiple) {
               $('input[type="checkbox"]', this).prop('checked', function(i, v) { return !v; });
-              selected = toggleEntryFromArray(valuesSelected, $(this).index(), $select);
+              selected = toggleEntryFromArray(valuesSelected, i, $select);
               $newSelect.trigger('focus');
             } else {
               options.find('li').removeClass('active');
@@ -3672,7 +3712,7 @@ if (jQuery) {
         entriesArray.splice(index, 1);
       }
 
-      select.siblings('ul.dropdown-content').find('li').eq(entryIndex).toggleClass('active');
+      select.siblings('ul.dropdown-content').find('li:not(.optgroup)').eq(entryIndex).toggleClass('active');
 
       // use notAdded instead of true (to detect if the option is selected or not)
       select.find('option').eq(entryIndex).prop('selected', notAdded);
@@ -4053,8 +4093,7 @@ if (jQuery) {
     data: [],
     placeholder: '',
     secondaryPlaceholder: '',
-    autocompleteData: {},
-    autocompleteLimit: Infinity,
+    autocompleteOptions: {},
   };
 
   $(document).ready(function() {
@@ -4085,7 +4124,7 @@ if (jQuery) {
     }
 
     var curr_options = $.extend({}, materialChipsDefaults, options);
-    self.hasAutocomplete = !$.isEmptyObject(curr_options.autocompleteData);
+    self.hasAutocomplete = !$.isEmptyObject(curr_options.autocompleteOptions.data);
 
     // Initialize
     this.init = function() {
@@ -4247,12 +4286,11 @@ if (jQuery) {
     };
 
     this.chips = function($chips, chipId) {
-      var html = '';
+      $chips.empty();
       $chips.data('chips').forEach(function(elem){
-        html += self.renderChip(elem);
+        $chips.append(self.renderChip(elem));
       });
-      html += '<input id="' + chipId +'" class="input" placeholder="">';
-      $chips.html(html);
+      $chips.append($('<input id="' + chipId +'" class="input" placeholder="">'));
       self.setPlaceholder($chips);
 
       // Set for attribute for label
@@ -4268,28 +4306,27 @@ if (jQuery) {
       // Setup autocomplete if needed.
       var input = $('#' + chipId);
       if (self.hasAutocomplete) {
-        input.autocomplete({
-          data: curr_options.autocompleteData,
-          limit: curr_options.autocompleteLimit,
-          onAutocomplete: function(val) {
-            self.addChip({tag: val}, $chips);
-            input.val('');
-            input.focus();
-          },
-        })
+        curr_options.autocompleteOptions.onAutocomplete = function(val) {
+          self.addChip({tag: val}, $chips);
+          input.val('');
+          input.focus();
+        }
+        input.autocomplete(curr_options.autocompleteOptions);
       }
     };
 
+    /**
+     * Render chip jQuery element.
+     * @param {Object} elem
+     * @return {jQuery}
+     */
     this.renderChip = function(elem) {
       if (!elem.tag) return;
 
-      var html = '<div class="chip">' + elem.tag;
-      if (elem.image) {
-        html += ' <img src="' + elem.image + '"> ';
-      }
-      html += '<i class="material-icons close">close</i>';
-      html += '</div>';
-      return html;
+      var $renderedChip = $('<div class="chip"></div>');
+      $renderedChip.text(elem.tag);
+      $renderedChip.append($('<i class="material-icons close">close</i>'));
+      return $renderedChip;
     };
 
     this.setPlaceholder = function($chips) {
@@ -4317,7 +4354,7 @@ if (jQuery) {
       if (!self.isValid($chips, elem)) {
         return;
       }
-      var chipHtml = self.renderChip(elem);
+      var $renderedChip = self.renderChip(elem);
       var newData = [];
       var oldData = $chips.data('chips');
       for (var i = 0; i < oldData.length; i++) {
@@ -4326,7 +4363,7 @@ if (jQuery) {
       newData.push(elem);
 
       $chips.data('chips', newData);
-      $(chipHtml).insertBefore($chips.find('input'));
+      $renderedChip.insertBefore($chips.find('input'));
       $chips.trigger('chip.add', elem);
       self.setPlaceholder($chips);
     };
@@ -7564,9 +7601,11 @@ Picker.extend( 'pickadate', DatePicker )
         onCycleTo: null // Callback for when a new slide is cycled to.
       };
       options = $.extend(defaults, options);
+      var namespace = Materialize.objectSelectorString($(this));
 
-      return this.each(function() {
+      return this.each(function(i) {
 
+        var uniqueNamespace = namespace+i;
         var images, item_width, item_height, offset, center, pressed, dim, count,
             reference, referenceY, amplitude, target, velocity,
             xform, frame, timestamp, ticker, dragged, vertical_dragged;
@@ -7861,6 +7900,7 @@ Picker.extend( 'pickadate', DatePicker )
         }
 
         function tap(e) {
+          e.preventDefault();
           pressed = true;
           dragged = false;
           vertical_dragged = false;
@@ -7872,7 +7912,6 @@ Picker.extend( 'pickadate', DatePicker )
           timestamp = Date.now();
           clearInterval(ticker);
           ticker = setInterval(track, 100);
-
         }
 
         function drag(e) {
@@ -7955,7 +7994,7 @@ Picker.extend( 'pickadate', DatePicker )
         });
 
 
-        $(window).on('resize.carousel', function() {
+        $(window).off('resize.'+uniqueNamespace).on('resize.'+uniqueNamespace, function() {
           if (options.fullWidth) {
             item_width = view.find('.carousel-item').first().innerWidth();
             item_height = view.find('.carousel-item').first().innerHeight();
@@ -8028,4 +8067,184 @@ Picker.extend( 'pickadate', DatePicker )
         $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.carousel' );
       }
     }; // Plugin end
+}( jQuery ));;(function ($) {
+
+  var methods = {
+  init: function (options) {
+    return this.each(function() {
+    var origin = $('#'+$(this).attr('data-activates'));
+    var screen = $('body');
+
+    // Creating tap target
+    var tapTargetEl = $(this);
+    var tapTargetWrapper = tapTargetEl.parent('.tap-target-wrapper');
+    var tapTargetWave = tapTargetWrapper.find('.tap-target-wave');
+    var tapTargetOriginEl = tapTargetWrapper.find('.tap-target-origin');
+    var tapTargetContentEl = tapTargetEl.find('.tap-target-content');
+
+    // Creating wrapper
+    if (!tapTargetWrapper.length) {
+      tapTargetWrapper = tapTargetEl.wrap($('<div class="tap-target-wrapper"></div>')).parent();
+    }
+
+    // Creating content
+    if (!tapTargetContentEl.length) {
+      tapTargetContentEl = $('<div class="tap-target-content"></div>');
+      tapTargetEl.append(tapTargetContentEl);
+    }
+
+    // Creating foreground wave
+    if (!tapTargetWave.length) {
+      tapTargetWave = $('<div class="tap-target-wave"></div>');
+
+      // Creating origin
+      if (!tapTargetOriginEl.length) {
+        tapTargetOriginEl = origin.clone(true, true);
+        tapTargetOriginEl.addClass('tap-target-origin');
+        tapTargetOriginEl.removeAttr('id');
+        tapTargetOriginEl.removeAttr('style');
+        tapTargetWave.append(tapTargetOriginEl);
+      }
+
+      tapTargetWrapper.append(tapTargetWave);
+    }
+
+    // Open
+    var openTapTarget = function() {
+      if (tapTargetWrapper.is('.open')) {
+        return;
+      }
+
+      // Adding open class
+      tapTargetWrapper.addClass('open');
+
+      setTimeout(function() {
+        tapTargetOriginEl.off('click.tapTarget').on('click.tapTarget', function(e) {
+          closeTapTarget();
+          tapTargetOriginEl.off('click.tapTarget');
+        });
+
+        $(document).off('click.tapTarget').on('click.tapTarget', function(e) {
+          closeTapTarget();
+          $(document).off('click.tapTarget');
+        });
+      }, 0);
+    };
+
+    // Close
+    var closeTapTarget = function(){
+      if (!tapTargetWrapper.is('.open')) {
+        return;
+      }
+
+      tapTargetWrapper.removeClass('open');
+      tapTargetOriginEl.off('click.tapTarget')
+      $(document).off('click.tapTarget');
+    };
+
+    // Pre calculate
+    var calculateTapTarget = function() {
+      // Element or parent is fixed position?
+      var isFixed = origin.css('position') === 'fixed';
+      if (!isFixed) {
+        var parents = origin.parents();
+        for(var i = 0; i < parents.length; i++) {
+          isFixed = $(parents[i]).css('position') == 'fixed';
+          if (isFixed) {
+            break;
+          }
+        }
+      }
+
+      // Calculating origin
+      var originWidth = origin.outerWidth();
+      var originHeight = origin.outerHeight();
+      var originTop = isFixed ? origin.offset().top - $(document).scrollTop() : origin.offset().top;
+      var originLeft = isFixed ? origin.offset().left - $(document).scrollLeft() : origin.offset().left;
+
+      // Calculating screen
+      var windowWidth = $(window).width();
+      var windowHeight = $(window).height();
+      var centerX = windowWidth / 2;
+      var centerY = windowHeight / 2;
+      var isLeft = originLeft <= centerX;
+      var isRight = originLeft > centerX;
+      var isTop = originTop <= centerY;
+      var isBottom = originTop > centerY;
+      var isCenterX = originLeft >= windowWidth*0.25 && originLeft <= windowWidth*0.75;
+      var isCenterY = originTop >= windowHeight*0.25 && originTop <= windowHeight*0.75;
+
+      // Calculating tap target
+      var tapTargetWidth = tapTargetEl.outerWidth();
+      var tapTargetHeight = tapTargetEl.outerHeight();
+      var tapTargetTop = originTop + originHeight/2 - tapTargetHeight/2;
+      var tapTargetLeft = originLeft + originWidth/2 - tapTargetWidth/2;
+      var tapTargetPosition = isFixed ? 'fixed' : 'absolute';
+
+      // Calculating content
+      var tapTargetTextWidth = isCenterX ? tapTargetWidth : tapTargetWidth/2 + originWidth;
+      var tapTargetTextHeight = tapTargetHeight/2;
+      var tapTargetTextTop = isTop ? tapTargetHeight/2 : 0;
+      var tapTargetTextBottom = 0;
+      var tapTargetTextLeft = isLeft && !isCenterX ? tapTargetWidth/2 - originWidth : 0;
+      var tapTargetTextRight = 0;
+      var tapTargetTextPadding = originWidth;
+      var tapTargetTextAlign = isBottom ? 'bottom' : 'top';
+
+      // Calculating wave
+      var tapTargetWaveWidth = originWidth > originHeight ? originWidth*2 : originWidth*2;
+      var tapTargetWaveHeight = tapTargetWaveWidth;
+      var tapTargetWaveTop = tapTargetHeight/2 - tapTargetWaveHeight/2;
+      var tapTargetWaveLeft = tapTargetWidth/2 - tapTargetWaveWidth/2;
+
+      // Setting tap target
+      var tapTargetWrapperCssObj = {};
+      tapTargetWrapperCssObj.top = isTop ? tapTargetTop : '';
+      tapTargetWrapperCssObj.right = isRight ? windowWidth - tapTargetLeft - tapTargetWidth : '';
+      tapTargetWrapperCssObj.bottom = isBottom ? windowHeight - tapTargetTop - tapTargetHeight : '';
+      tapTargetWrapperCssObj.left = isLeft ? tapTargetLeft : '';
+      tapTargetWrapperCssObj.position = tapTargetPosition;
+      tapTargetWrapper.css(tapTargetWrapperCssObj);
+
+      // Setting content
+      tapTargetContentEl.css({
+        width: tapTargetTextWidth,
+        height: tapTargetTextHeight,
+        top: tapTargetTextTop,
+        right: tapTargetTextRight,
+        bottom: tapTargetTextBottom,
+        left: tapTargetTextLeft,
+        padding: tapTargetTextPadding,
+        verticalAlign: tapTargetTextAlign
+      });
+
+      // Setting wave
+      tapTargetWave.css({
+        top: tapTargetWaveTop,
+        left: tapTargetWaveLeft,
+        width: tapTargetWaveWidth,
+        height: tapTargetWaveHeight
+      });
+    }
+
+    if (options == 'open') {
+      calculateTapTarget();
+      openTapTarget();
+    }
+
+    if (options == 'close')
+      closeTapTarget();
+    });
+  },
+  open: function() {},
+  close: function() {}
+  };
+
+  $.fn.tapTarget = function(methodOrOptions) {
+  if (methods[methodOrOptions] || typeof methodOrOptions === 'object')
+    return methods.init.apply( this, arguments );
+
+  $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.tap-target' );
+  };
+
 }( jQuery ));
