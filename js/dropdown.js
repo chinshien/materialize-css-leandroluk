@@ -36,7 +36,7 @@
     }
 
     this.each(function() {
-      debugger;
+
       var origin = $(this);
       var curr_options = $.extend({}, defaults, options);
       var isFocused = false;
