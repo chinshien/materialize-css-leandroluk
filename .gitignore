@@ -16,3 +16,5 @@ bower_components
 **/.#*
 .grunt/
 .versions
+*.sublime-project
+*.sublime-workspace
