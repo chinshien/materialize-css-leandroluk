@@ -1,4 +1,3 @@
-:not(.modal) {
   nav {
     &.nav-extended {
       height: auto;
@@ -172,15 +171,17 @@
       }
     }
   }
+  
   // Fixed Navbar
   .navbar-fixed {
     position: relative;
     height: $navbar-height-mobile;
     z-index: 997;
-    :not(.modal) nav {
+    nav {
       position: fixed;
     }
   }
+  
   @media #{$medium-and-up} {
     nav.nav-extended .nav-wrapper {
       min-height: $navbar-height;
@@ -196,4 +197,3 @@
       height: $navbar-height;
     }
   }
-}

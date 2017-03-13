@@ -2578,7 +2578,7 @@ a {
   box-shadow: none !important;
 }
 
-.z-depth-1, :not(.modal) nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
@@ -4113,7 +4113,7 @@ nav ul a span.badge {
   }
 }
 
-:not(.modal) nav {
+nav {
   color: #fff;
   background-color: #ee6e73;
   width: 100%;
@@ -4121,46 +4121,46 @@ nav ul a span.badge {
   line-height: 56px;
 }
 
-:not(.modal) nav.nav-extended {
+nav.nav-extended {
   height: auto;
 }
 
-:not(.modal) nav.nav-extended .nav-wrapper {
+nav.nav-extended .nav-wrapper {
   min-height: 56px;
   height: auto;
 }
 
-:not(.modal) nav.nav-extended .nav-content {
+nav.nav-extended .nav-content {
   position: relative;
   line-height: normal;
 }
 
-:not(.modal) nav a {
+nav a {
   color: #fff;
 }
 
-:not(.modal) nav i,
-:not(.modal) nav [class^="mdi-"],
-:not(.modal) nav [class*="mdi-"],
-:not(.modal) nav i.material-icons {
+nav i,
+nav [class^="mdi-"],
+nav [class*="mdi-"],
+nav i.material-icons {
   display: block;
   font-size: 24px;
   height: 56px;
   line-height: 56px;
 }
 
-:not(.modal) nav .nav-wrapper {
+nav .nav-wrapper {
   position: relative;
   height: 100%;
 }
 
 @media only screen and (min-width: 993px) {
-  :not(.modal) nav a.button-collapse {
+  nav a.button-collapse {
     display: none;
   }
 }
 
-:not(.modal) nav .button-collapse {
+nav .button-collapse {
   float: left;
   position: relative;
   z-index: 1;
@@ -4168,16 +4168,16 @@ nav ul a span.badge {
   margin: 0 18px;
 }
 
-:not(.modal) nav .button-collapse i {
+nav .button-collapse i {
   height: 56px;
   line-height: 56px;
 }
 
-:not(.modal) nav .button-collapse > * {
+nav .button-collapse > * {
   pointer-events: none;
 }
 
-:not(.modal) nav .brand-logo {
+nav .brand-logo {
   position: absolute;
   color: #fff;
   display: inline-block;
@@ -4186,66 +4186,66 @@ nav ul a span.badge {
   white-space: nowrap;
 }
 
-:not(.modal) nav .brand-logo.center {
+nav .brand-logo.center {
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
 }
 
 @media only screen and (max-width: 992px) {
-  :not(.modal) nav .brand-logo {
+  nav .brand-logo {
     left: 50%;
     -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
   }
-  :not(.modal) nav .brand-logo.left, :not(.modal) nav .brand-logo.right {
+  nav .brand-logo.left, nav .brand-logo.right {
     padding: 0;
     -webkit-transform: none;
             transform: none;
   }
-  :not(.modal) nav .brand-logo.left {
+  nav .brand-logo.left {
     left: 0.5rem;
   }
-  :not(.modal) nav .brand-logo.right {
+  nav .brand-logo.right {
     right: 0.5rem;
     left: auto;
   }
 }
 
-:not(.modal) nav .brand-logo.right {
+nav .brand-logo.right {
   right: 0.5rem;
   padding: 0;
 }
 
-:not(.modal) nav .brand-logo i,
-:not(.modal) nav .brand-logo [class^="mdi-"],
-:not(.modal) nav .brand-logo [class*="mdi-"],
-:not(.modal) nav .brand-logo i.material-icons {
+nav .brand-logo i,
+nav .brand-logo [class^="mdi-"],
+nav .brand-logo [class*="mdi-"],
+nav .brand-logo i.material-icons {
   float: left;
   margin-right: 15px;
 }
 
-:not(.modal) nav .nav-title {
+nav .nav-title {
   display: inline-block;
   font-size: 32px;
   padding: 28px 0;
 }
 
-:not(.modal) nav ul {
+nav ul {
   margin: 0;
 }
 
-:not(.modal) nav ul li {
+nav ul li {
   transition: background-color .3s;
   float: left;
   padding: 0;
 }
 
-:not(.modal) nav ul li.active {
+nav ul li.active {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-:not(.modal) nav ul a {
+nav ul a {
   transition: background-color .3s;
   font-size: 1rem;
   color: #fff;
@@ -4254,82 +4254,82 @@ nav ul a span.badge {
   cursor: pointer;
 }
 
-:not(.modal) nav ul a.btn, :not(.modal) nav ul a.btn-large, :not(.modal) nav ul a.btn-large, :not(.modal) nav ul a.btn-flat, :not(.modal) nav ul a.btn-floating {
+nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
   margin-top: -2px;
   margin-left: 15px;
   margin-right: 15px;
 }
 
-:not(.modal) nav ul a.btn > .material-icons, :not(.modal) nav ul a.btn-large > .material-icons, :not(.modal) nav ul a.btn-large > .material-icons, :not(.modal) nav ul a.btn-flat > .material-icons, :not(.modal) nav ul a.btn-floating > .material-icons {
+nav ul a.btn > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-flat > .material-icons, nav ul a.btn-floating > .material-icons {
   height: inherit;
   line-height: inherit;
 }
 
-:not(.modal) nav ul a:hover {
+nav ul a:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-:not(.modal) nav ul.left {
+nav ul.left {
   float: left;
 }
 
-:not(.modal) nav form {
+nav form {
   height: 100%;
 }
 
-:not(.modal) nav .input-field {
+nav .input-field {
   margin: 0;
   height: 100%;
 }
 
-:not(.modal) nav .input-field input {
+nav .input-field input {
   height: 100%;
   font-size: 1.2rem;
   border: none;
   padding-left: 2rem;
 }
 
-:not(.modal) nav .input-field input:focus, :not(.modal) nav .input-field input[type=text]:valid, :not(.modal) nav .input-field input[type=password]:valid, :not(.modal) nav .input-field input[type=email]:valid, :not(.modal) nav .input-field input[type=url]:valid, :not(.modal) nav .input-field input[type=date]:valid {
+nav .input-field input:focus, nav .input-field input[type=text]:valid, nav .input-field input[type=password]:valid, nav .input-field input[type=email]:valid, nav .input-field input[type=url]:valid, nav .input-field input[type=date]:valid {
   border: none;
   box-shadow: none;
 }
 
-:not(.modal) nav .input-field label {
+nav .input-field label {
   top: 0;
   left: 0;
 }
 
-:not(.modal) nav .input-field label i {
+nav .input-field label i {
   color: rgba(255, 255, 255, 0.7);
   transition: color .3s;
 }
 
-:not(.modal) nav .input-field label.active i {
+nav .input-field label.active i {
   color: #fff;
 }
 
-:not(.modal) .navbar-fixed {
+.navbar-fixed {
   position: relative;
   height: 56px;
   z-index: 997;
 }
 
-:not(.modal) .navbar-fixed :not(.modal) nav {
+.navbar-fixed nav {
   position: fixed;
 }
 
 @media only screen and (min-width: 601px) {
-  :not(.modal) nav.nav-extended .nav-wrapper {
+  nav.nav-extended .nav-wrapper {
     min-height: 64px;
   }
-  :not(.modal) nav,
-  :not(.modal) nav .nav-wrapper i,
-  :not(.modal) nav a.button-collapse,
-  :not(.modal) nav a.button-collapse i {
+  nav,
+  nav .nav-wrapper i,
+  nav a.button-collapse,
+  nav a.button-collapse i {
     height: 64px;
     line-height: 64px;
   }
-  :not(.modal) .navbar-fixed {
+  .navbar-fixed {
     height: 64px;
   }
 }
