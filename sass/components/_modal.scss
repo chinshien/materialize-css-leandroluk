@@ -21,15 +21,13 @@
   h4 {
     margin-top: 0;
   }
-  .modal-content,
-  main {
+  .modal-content {
     padding: 24px;
   }
   .modal-close {
     cursor: pointer;
   }
-  .modal-footer,
-  footer {
+  .modal-footer {
     border-radius: 0 0 2px 2px;
     background-color: #fafafa;
     padding: 4px 6px;
@@ -41,33 +39,29 @@
       margin: 6px 0;
     }
   }
-  .modal-header,
-  header {
+  .modal-header {
     @extend .modal-footer;
     display: table;
-    .text,
-    nav,
-    .nav-link {
+    .modal-title,
+    .modal-nav {
       display: table-cell;
     }
-    nav,
-    .nav-link {
-      a {
-        width: 36px;
-        padding: 0;
-        text-align: center;
-        i {
-          width: 0;
+    ul.modal-nav,
+    .modal-nav {
+      li {
+        display: inline-block;
+        a {
+          width: 36px;
+          padding: 0;
+          text-align: center;
+          display: inline-block;
+          i {
+            width: 0;
+          }
         }
       }
     }
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .text {
+    .modal-title {
       width: 100%;
       font-size: inherit;
     }
