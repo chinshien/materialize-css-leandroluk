@@ -25,3 +25,6 @@ Below are all the modifications made to library optimization.
 ##### Dropdown - http://materializecss.com/dropdown.html
 * Changed how to select element for jQuery pattern (same css selector structure).
 * Optimized code (removing unnecessary block declarations, implementing tenuous comparisons where possible)
+
+##### Modal - http://materializecss.com/modals.html
+* Changed location where modal-overflow is created. Now the same is created after the Modal main element. (This is necessary so that there is no problem regarding the positioning of modal-overlow that ends up overlapping the modal).
