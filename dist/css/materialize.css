@@ -5570,7 +5570,7 @@ button.btn-floating {
 .modal .modal-header .modal-title,
 .modal .modal-header .modal-nav {
   display: table-cell;
-  margin: 6px inherit;
+  vertical-align: middle;
 }
 
 .modal .modal-header ul.modal-nav li,
