@@ -5583,7 +5583,7 @@ button.btn-floating {
 
 .modal .modal-header ul.modal-nav li a i,
 .modal .modal-header .modal-nav li a i {
-  width: 0;
+  width: 100%;
 }
 
 .modal .modal-header .modal-title {
