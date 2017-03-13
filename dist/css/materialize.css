@@ -2578,11 +2578,13 @@ a {
   box-shadow: none !important;
 }
 
-.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .btn-floating, .dropdown-content, .collapsible, .side-nav {
+.z-depth-1, nav, .card-panel, .card, .toast, .btn, .btn-large, .modal .modal-header ul.modal-nav li a,
+.modal .modal-header .modal-nav li a, .btn-floating, .dropdown-content, .collapsible, .side-nav {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-.z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
+.z-depth-1-half, .btn:hover, .btn-large:hover,
+.modal .modal-header .modal-nav li a:hover, .btn-floating:hover {
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
 }
 
@@ -4254,13 +4256,17 @@ nav ul a {
   cursor: pointer;
 }
 
-nav ul a.btn, nav ul a.btn-large, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
+nav ul a.btn, nav ul a.btn-large, nav .modal .modal-header ul.modal-nav li a, .modal .modal-header nav ul.modal-nav li a, nav ul
+.modal .modal-header .modal-nav li a,
+.modal .modal-header .modal-nav li nav ul a, nav ul a.btn-large, nav ul a.btn-flat, nav ul a.btn-floating {
   margin-top: -2px;
   margin-left: 15px;
   margin-right: 15px;
 }
 
-nav ul a.btn > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-flat > .material-icons, nav ul a.btn-floating > .material-icons {
+nav ul a.btn > .material-icons, nav ul a.btn-large > .material-icons, nav .modal .modal-header ul.modal-nav li a > .material-icons, .modal .modal-header nav ul.modal-nav li a > .material-icons, nav ul
+.modal .modal-header .modal-nav li a > .material-icons,
+.modal .modal-header .modal-nav li nav ul a > .material-icons, nav ul a.btn-large > .material-icons, nav ul a.btn-flat > .material-icons, nav ul a.btn-floating > .material-icons {
   height: inherit;
   line-height: inherit;
 }
@@ -4785,14 +4791,16 @@ small {
   padding: 16px 24px;
 }
 
-.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating) {
+.card .card-action a:not(.btn):not(.btn-large):not(.modal .modal-header ul.modal-nav li a):not(
+.modal .modal-header .modal-nav li a):not(.btn-large):not(.btn-floating) {
   color: #ffab40;
   margin-right: 24px;
   transition: color .3s ease;
   text-transform: uppercase;
 }
 
-.card .card-action a:not(.btn):not(.btn-large):not(.btn-large):not(.btn-floating):hover {
+.card .card-action a:not(.btn):not(.btn-large):not(.modal .modal-header ul.modal-nav li a):not(
+.modal .modal-header .modal-nav li a):not(.btn-large):not(.btn-floating):hover {
   color: #ffd8a6;
 }
 
@@ -4871,7 +4879,9 @@ small {
           justify-content: space-between;
 }
 
-.toast .btn, .toast .btn-large, .toast .btn-flat {
+.toast .btn, .toast .btn-large, .toast
+.modal .modal-header .modal-nav li a,
+.modal .modal-header .modal-nav li .toast a, .toast .btn-flat {
   margin: 0;
   margin-left: 3rem;
 }
@@ -5031,7 +5041,8 @@ small {
   visibility: hidden;
 }
 
-.btn, .btn-large,
+.btn, .btn-large, .modal .modal-header ul.modal-nav li a,
+.modal .modal-header .modal-nav li a,
 .btn-flat {
   border: none;
   border-radius: 2px;
@@ -5045,16 +5056,19 @@ small {
 }
 
 .btn.disabled, .disabled.btn-large,
+.modal .modal-header .modal-nav li a.disabled,
 .btn-floating.disabled,
 .btn-large.disabled,
 .btn-flat.disabled,
 .btn:disabled,
 .btn-large:disabled,
+.modal .modal-header .modal-nav li a:disabled,
 .btn-floating:disabled,
 .btn-large:disabled,
 .btn-flat:disabled,
 .btn[disabled],
 [disabled].btn-large,
+.modal .modal-header .modal-nav li a[disabled],
 .btn-floating[disabled],
 .btn-large[disabled],
 .btn-flat[disabled] {
@@ -5066,16 +5080,19 @@ small {
 }
 
 .btn.disabled:hover, .disabled.btn-large:hover,
+.modal .modal-header .modal-nav li a.disabled:hover,
 .btn-floating.disabled:hover,
 .btn-large.disabled:hover,
 .btn-flat.disabled:hover,
 .btn:disabled:hover,
 .btn-large:disabled:hover,
+.modal .modal-header .modal-nav li a:disabled:hover,
 .btn-floating:disabled:hover,
 .btn-large:disabled:hover,
 .btn-flat:disabled:hover,
 .btn[disabled]:hover,
 [disabled].btn-large:hover,
+.modal .modal-header .modal-nav li a[disabled]:hover,
 .btn-floating[disabled]:hover,
 .btn-large[disabled]:hover,
 .btn-flat[disabled]:hover {
@@ -5083,7 +5100,8 @@ small {
   color: #9F9F9F !important;
 }
 
-.btn, .btn-large,
+.btn, .btn-large, .modal .modal-header ul.modal-nav li a,
+.modal .modal-header .modal-nav li a,
 .btn-floating,
 .btn-large,
 .btn-flat {
@@ -5091,6 +5109,7 @@ small {
 }
 
 .btn i, .btn-large i,
+.modal .modal-header .modal-nav li a i,
 .btn-floating i,
 .btn-large i,
 .btn-flat i {
@@ -5099,11 +5118,13 @@ small {
 }
 
 .btn:focus, .btn-large:focus,
+.modal .modal-header .modal-nav li a:focus,
 .btn-floating:focus {
   background-color: #1d7d74;
 }
 
-.btn, .btn-large {
+.btn, .btn-large, .modal .modal-header ul.modal-nav li a,
+.modal .modal-header .modal-nav li a {
   text-decoration: none;
   color: #fff;
   background-color: #26a69a;
@@ -5113,7 +5134,8 @@ small {
   cursor: pointer;
 }
 
-.btn:hover, .btn-large:hover {
+.btn:hover, .btn-large:hover,
+.modal .modal-header .modal-nav li a:hover {
   background-color: #2bbbad;
 }
 
@@ -5513,6 +5535,7 @@ button.btn-floating {
   z-index: -1;
 }
 
+@imports 'buttons';
 .modal {
   display: none;
   position: fixed;
@@ -5557,7 +5580,7 @@ button.btn-floating {
   width: 100%;
 }
 
-.modal .modal-footer .btn, .modal .modal-header .btn, .modal .modal-footer .btn-large, .modal .modal-header .btn-large,
+.modal .modal-footer .btn, .modal .modal-header .btn, .modal .modal-footer .btn-large, .modal .modal-header .btn-large, .modal .modal-header ul.modal-nav li a, .modal .modal-header .modal-nav li a,
 .modal .modal-footer .btn-flat, .modal .modal-header .btn-flat {
   float: right;
   padding-top: 6px;
@@ -5588,6 +5611,7 @@ button.btn-floating {
 
 .modal .modal-header ul.modal-nav li a i,
 .modal .modal-header .modal-nav li a i {
+  padding-top: 3px;
   width: 100%;
 }
 
@@ -6885,7 +6909,9 @@ select:disabled {
   width: 100%;
 }
 
-.file-field .btn, .file-field .btn-large {
+.file-field .btn, .file-field .btn-large, .file-field
+.modal .modal-header .modal-nav li a,
+.modal .modal-header .modal-nav li .file-field a {
   float: left;
   height: 3rem;
   line-height: 3rem;
@@ -7153,11 +7179,15 @@ input[type=range]:focus::-ms-fill-upper {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.side-nav li > a.btn, .side-nav li > a.btn-large, .side-nav li > a.btn-large, .side-nav li > a.btn-flat, .side-nav li > a.btn-floating {
+.side-nav li > a.btn, .side-nav li > a.btn-large, .side-nav
+.modal .modal-header .modal-nav li > a,
+.modal .modal-header .modal-nav .side-nav li > a, .side-nav li > a.btn-large, .side-nav li > a.btn-flat, .side-nav li > a.btn-floating {
   margin: 10px 15px;
 }
 
-.side-nav li > a.btn, .side-nav li > a.btn-large, .side-nav li > a.btn-large, .side-nav li > a.btn-floating {
+.side-nav li > a.btn, .side-nav li > a.btn-large, .side-nav
+.modal .modal-header .modal-nav li > a,
+.modal .modal-header .modal-nav .side-nav li > a, .side-nav li > a.btn-large, .side-nav li > a.btn-floating {
   color: #fff;
 }
 
@@ -7165,7 +7195,9 @@ input[type=range]:focus::-ms-fill-upper {
   color: #343434;
 }
 
-.side-nav li > a.btn:hover, .side-nav li > a.btn-large:hover, .side-nav li > a.btn-large:hover {
+.side-nav li > a.btn:hover, .side-nav li > a.btn-large:hover, .side-nav
+.modal .modal-header .modal-nav li > a:hover,
+.modal .modal-header .modal-nav .side-nav li > a:hover, .side-nav li > a.btn-large:hover {
   background-color: #2bbbad;
 }
 
@@ -8112,7 +8144,9 @@ input[type=range]:focus::-ms-fill-upper {
   position: absolute !important;
 }
 
-.tap-target-origin:not(.btn):not(.btn-large), .tap-target-origin:not(.btn):not(.btn-large):hover {
+.tap-target-origin:not(.btn):not(.btn-large):not(.modal .modal-header ul.modal-nav li a):not(
+.modal .modal-header .modal-nav li a), .tap-target-origin:not(.btn):not(.btn-large):not(.modal .modal-header ul.modal-nav li a):not(
+.modal .modal-header .modal-nav li a):hover {
   background: none;
 }
 

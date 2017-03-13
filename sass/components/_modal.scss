@@ -1,3 +1,4 @@
+@imports 'buttons';
 .modal {
   @extend .z-depth-4;
   display: none;
@@ -52,11 +53,13 @@
       li {
         display: inline-block;
         a {
+          @extend .btn;
           width: 36px;
           padding: 0;
           text-align: center;
           display: inline-block;
           i {
+            padding-top: 3px;
             width: 100%;
           }
         }
