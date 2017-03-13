@@ -921,10 +921,19 @@ if (jQuery) {
         };
 
         var openModal = function($trigger) {
+
           var $body = $('body');
+
+          $body.css({
+            overflow: 'hidden',
+            width: '100%'
+          });
+
+          /*
           var oldWidth = $body.innerWidth();
           $body.css('overflow', 'hidden');
           $body.width(oldWidth);
+          */
 
           if ($modal.hasClass('open')) return;
 
