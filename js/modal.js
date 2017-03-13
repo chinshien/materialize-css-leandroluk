@@ -1,13 +1,13 @@
 (function($) {
   var _stack = 0,
-  _lastID = 0,
-  _generateID = function() {
-    _lastID++;
-    return 'materialize-modal-overlay-' + _lastID;
-  };
+    _lastID = 0,
+    _generateID = function() {
+      _lastID++;
+      return 'materialize-modal-overlay-' + _lastID;
+    };
 
   var methods = {
-    init : function(options) {
+    init: function(options) {
       var defaults = {
         opacity: 0.5,
         inDuration: 350,
@@ -40,7 +40,7 @@
           $modal.find('.modal-close').off('click.close');
           $(document).off('keyup.modal' + overlayID);
 
-          $overlay.velocity( { opacity: 0}, {duration: options.outDuration, queue: false, ease: "easeOutQuart"});
+          $overlay.velocity({ opacity: 0 }, { duration: options.outDuration, queue: false, ease: "easeOutQuart" });
 
 
           // Define Bottom Sheet animation
@@ -50,25 +50,20 @@
             ease: "easeOutCubic",
             // Handle modal ready callback
             complete: function() {
-              $(this).css({display:"none"});
+              $(this).css({ display: "none" });
 
               // Call complete callback
-              if (typeof(options.complete) === "function") {
+              if (typeof(options.complete) === "function")
                 options.complete.call(this, $modal);
-              }
+
               $overlay.remove();
               _stack--;
             }
           };
-          if ($modal.hasClass('bottom-sheet')) {
-            $modal.velocity({bottom: "-100%", opacity: 0}, exitVelocityOptions);
-          }
-          else {
-            $modal.velocity(
-              { top: options.startingTop, opacity: 0, scaleX: 0.7},
-              exitVelocityOptions
-            );
-          }
+          $modal.hasClass('bottom-sheet') ?
+            $modal.velocity({ bottom: "-100%", opacity: 0 }, exitVelocityOptions) :
+            $modal.velocity({ top: options.startingTop, opacity: 0, scaleX: 0.7 }, exitVelocityOptions);
+
         };
 
         var openModal = function($trigger) {
@@ -77,9 +72,7 @@
           $body.css('overflow', 'hidden');
           $body.width(oldWidth);
 
-          if ($modal.hasClass('open')) {
-            return;
-          }
+          if ($modal.hasClass('open')) return;
 
           var overlayID = _generateID();
           var $overlay = $('<div class="modal-overlay"></div>');
@@ -90,7 +83,8 @@
           $modal.data('overlay-id', overlayID).css('z-index', 1000 + lStack * 2 + 1);
           $modal.addClass('open');
 
-          $("body").append($overlay);
+          // $("body").append($overlay);
+          $modal.parent().append($overlay);
 
           if (options.dismissible) {
             $overlay.click(function() {
@@ -98,9 +92,8 @@
             });
             // Return on ESC
             $(document).on('keyup.modal' + overlayID, function(e) {
-              if (e.keyCode === 27) {   // ESC key
+              if (e.keyCode === 27) // ESC key
                 closeModal();
-              }
             });
           }
 
@@ -108,14 +101,14 @@
             closeModal();
           });
 
-          $overlay.css({ display : "block", opacity : 0 });
+          $overlay.css({ display: "block", opacity: 0 });
 
           $modal.css({
-            display : "block",
+            display: "block",
             opacity: 0
           });
 
-          $overlay.velocity({opacity: options.opacity}, {duration: options.inDuration, queue: false, ease: "easeOutCubic"});
+          $overlay.velocity({ opacity: options.opacity }, { duration: options.inDuration, queue: false, ease: "easeOutCubic" });
           $modal.data('associated-overlay', $overlay[0]);
 
           // Define Bottom Sheet animation
@@ -125,18 +118,16 @@
             ease: "easeOutCubic",
             // Handle modal ready callback
             complete: function() {
-              if (typeof(options.ready) === "function") {
+              if (typeof(options.ready) === "function")
                 options.ready.call(this, $modal, $trigger);
-              }
             }
           };
-          if ($modal.hasClass('bottom-sheet')) {
-            $modal.velocity({bottom: "0", opacity: 1}, enterVelocityOptions);
-          }
+          if ($modal.hasClass('bottom-sheet'))
+            $modal.velocity({ bottom: "0", opacity: 1 }, enterVelocityOptions);
           else {
             $.Velocity.hook($modal, "scaleX", 0.7);
             $modal.css({ top: options.startingTop });
-            $modal.velocity({top: options.endingTop, opacity: 1, scaleX: '1'}, enterVelocityOptions);
+            $modal.velocity({ top: options.endingTop, opacity: 1, scaleX: '1' }, enterVelocityOptions);
           }
 
         };
@@ -148,7 +139,7 @@
 
         // Close Handlers
         $(document).on('click.modalTrigger', 'a[href="#' + modal_id + '"], [data-target="' + modal_id + '"]', function(e) {
-          options.startingTop = ($(this).offset().top - $(window).scrollTop()) /1.15;
+          options.startingTop = ($(this).offset().top - $(window).scrollTop()) / 1.15;
           openModal($(this));
           e.preventDefault();
         }); // done set on click
@@ -163,22 +154,21 @@
         });
       }); // done return
     },
-    open : function() {
+    open: function() {
       $(this).trigger('openModal');
     },
-    close : function() {
+    close: function() {
       $(this).trigger('closeModal');
     }
   };
 
   $.fn.modal = function(methodOrOptions) {
-    if ( methods[methodOrOptions] ) {
-      return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-    } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
-      // Default to "init"
-      return methods.init.apply( this, arguments );
-    } else {
-      $.error( 'Method ' +  methodOrOptions + ' does not exist on jQuery.modal' );
-    }
+    if (methods[methodOrOptions])
+      return methods[methodOrOptions].apply(this, Array.prototype.slice.call(arguments, 1));
+    else if (typeof methodOrOptions === 'object' || !methodOrOptions)
+      return methods.init.apply(this, arguments);
+    else
+      $.error('Method ' + methodOrOptions + ' does not exist on jQuery.modal');
   };
+
 })(jQuery);
