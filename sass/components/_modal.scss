@@ -45,13 +45,11 @@
   header {
     @extend .modal-footer;
     display: table;
-    hgroup,
     .text,
     nav,
     .nav-link {
       display: table-cell;
     }
-    ,
     nav,
     .nav-link {
       a {

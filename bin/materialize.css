@@ -5568,21 +5568,17 @@ button.btn-floating {
   display: table;
 }
 
-.modal .modal-header hgroup,
 .modal .modal-header .text,
 .modal .modal-header nav,
 .modal .modal-header .nav-link,
-.modal header hgroup,
 .modal header .text,
 .modal header nav,
 .modal header .nav-link {
   display: table-cell;
 }
 
-.modal .modal-header a,
 .modal .modal-header nav a,
 .modal .modal-header .nav-link a,
-.modal header a,
 .modal header nav a,
 .modal header .nav-link a {
   width: 36px;
@@ -5590,10 +5586,8 @@ button.btn-floating {
   text-align: center;
 }
 
-.modal .modal-header a i,
 .modal .modal-header nav a i,
 .modal .modal-header .nav-link a i,
-.modal header a i,
 .modal header nav a i,
 .modal header .nav-link a i {
   width: 0;
