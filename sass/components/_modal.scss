@@ -1,6 +1,5 @@
 .modal {
   @extend .z-depth-4;
-
   display: none;
   position: fixed;
   left: 0;
@@ -11,38 +10,66 @@
   width: 55%;
   margin: auto;
   overflow-y: auto;
-
   border-radius: 2px;
   will-change: top, opacity;
-
   @media #{$medium-and-down} {
-   width: 80%;
+    width: 80%;
   }
-
-  h1,h2,h3,h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     margin-top: 0;
   }
-
-  .modal-content {
+  .modal-content,
+  main {
     padding: 24px;
   }
   .modal-close {
     cursor: pointer;
   }
-
-  .modal-footer {
+  .modal-footer,
+  footer {
     border-radius: 0 0 2px 2px;
     background-color: #fafafa;
     padding: 4px 6px;
     height: 56px;
     width: 100%;
-
-    .btn, .btn-flat {
+    .btn,
+    .btn-flat {
       float: right;
       margin: 6px 0;
     }
   }
+  .modal-header,
+  header {
+    @extend .modal-footer;
+    display: table;
+    hgroup,
+    .text,
+    nav,
+    .nav-link {
+      display: table-cell;
+    }
+    ,
+    nav,
+    .nav-link {
+      a {
+        width: 36px;
+        padding: 0;
+        text-align: center;
+        i {
+          width: 0;
+        }
+      }
+    }
+    hgroup,
+    .text {
+      width: 100%;
+    }
+  }
 }
+
 .modal-overlay {
   position: fixed;
   z-index: 999;
@@ -54,7 +81,6 @@
   width: 100%;
   background: #000;
   display: none;
-
   will-change: opacity;
 }
 
@@ -62,7 +88,6 @@
 .modal.modal-fixed-footer {
   padding: 0;
   height: 70%;
-
   .modal-content {
     position: absolute;
     height: calc(100% - 56px);
@@ -70,9 +95,8 @@
     width: 100%;
     overflow-y: auto;
   }
-
   .modal-footer {
-    border-top: 1px solid rgba(0,0,0,.1);
+    border-top: 1px solid rgba(0, 0, 0, .1);
     position: absolute;
     bottom: 0;
   }

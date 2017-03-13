@@ -5529,11 +5529,15 @@ button.btn-floating {
   }
 }
 
-.modal h1, .modal h2, .modal h3, .modal h4 {
+.modal h1,
+.modal h2,
+.modal h3,
+.modal h4 {
   margin-top: 0;
 }
 
-.modal .modal-content {
+.modal .modal-content,
+.modal main {
   padding: 24px;
 }
 
@@ -5541,7 +5545,8 @@ button.btn-floating {
   cursor: pointer;
 }
 
-.modal .modal-footer {
+.modal .modal-footer, .modal .modal-header, .modal header,
+.modal footer {
   border-radius: 0 0 2px 2px;
   background-color: #fafafa;
   padding: 4px 6px;
@@ -5549,9 +5554,56 @@ button.btn-floating {
   width: 100%;
 }
 
-.modal .modal-footer .btn, .modal .modal-footer .btn-large, .modal .modal-footer .btn-flat {
+.modal .modal-footer .btn, .modal .modal-header .btn, .modal header .btn, .modal .modal-footer .btn-large, .modal .modal-header .btn-large, .modal header .btn-large,
+.modal .modal-footer .btn-flat, .modal .modal-header .btn-flat, .modal header .btn-flat,
+.modal footer .btn,
+.modal footer .btn-large,
+.modal footer .btn-flat {
   float: right;
   margin: 6px 0;
+}
+
+.modal .modal-header,
+.modal header {
+  display: table;
+}
+
+.modal .modal-header hgroup,
+.modal .modal-header .text,
+.modal .modal-header nav,
+.modal .modal-header .nav-link,
+.modal header hgroup,
+.modal header .text,
+.modal header nav,
+.modal header .nav-link {
+  display: table-cell;
+}
+
+.modal .modal-header a,
+.modal .modal-header nav a,
+.modal .modal-header .nav-link a,
+.modal header a,
+.modal header nav a,
+.modal header .nav-link a {
+  width: 36px;
+  padding: 0;
+  text-align: center;
+}
+
+.modal .modal-header a i,
+.modal .modal-header nav a i,
+.modal .modal-header .nav-link a i,
+.modal header a i,
+.modal header nav a i,
+.modal header .nav-link a i {
+  width: 0;
+}
+
+.modal .modal-header hgroup,
+.modal .modal-header .text,
+.modal header hgroup,
+.modal header .text {
+  width: 100%;
 }
 
 .modal-overlay {
@@ -5581,7 +5633,7 @@ button.btn-floating {
   overflow-y: auto;
 }
 
-.modal.modal-fixed-footer .modal-footer {
+.modal.modal-fixed-footer .modal-footer, .modal.modal-fixed-footer .modal-header, .modal.modal-fixed-footer header {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
